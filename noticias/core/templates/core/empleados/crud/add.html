@@ -1,0 +1,14 @@
+{% extends 'core/base.html' %}
+{% load static %}
+{% block principal %}
+<div class="text-left">
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+        <table>
+            {{ form }}
+        </table>
+        <input class="btn btn-danger" type="reset" value="Limpiar">
+        <input class="btn btn-success" type="submit" value="Guardar">
+    </form>
+</div>
+{% endblock %}

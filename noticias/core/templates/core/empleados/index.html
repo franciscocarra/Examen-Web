@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <title>BizNews </title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    {% block css %}
+    {% endblock %} 
+    <link href="{% static 'core/img/favicon.ico' %}" rel="icon">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
+    <link href="{% static 'core/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+    <link href="{% static 'core/css/style.css' %}" rel="stylesheet">
+    <link href="{% static 'core/css/style_video.css' %}" rel="stylesheet">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" />
+
+</head>
+
+<body>
+    
+    <div class="container-fluid d-none d-lg-block">
+        <div class="row align-items-center bg-dark px-lg-5">
+            <div class="col-lg-9">
+                <nav class="navbar navbar-expand-sm bg-dark p-0">
+                    <ul class="navbar-nav ml-n2">
+                        <li class="nav-item border-right border-secondary">
+                            <a id="current-time" class="nav-link text-body small" href="#"></a>
+                        </li>
+                        <li class="nav-item border-right border-secondary">
+                            <a class="nav-link text-body small" href="#">Publicidad</a>
+                        </li>
+                        <li class="nav-item border-right border-secondary">
+                            <a class="nav-link text-body small" href="#">Contacto</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body small" href="{% url 'login' %}">Iniciar sesión</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3 text-right d-none d-md-block">
+                <nav class="navbar navbar-expand-sm bg-dark p-0">
+                    <ul class="navbar-nav ml-auto mr-n2">
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-twitter"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-facebook-f"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-linkedin-in"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-instagram"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-google-plus-g"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-youtube"></small></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row align-items-center bg-white py-3 px-lg-5">
+            <div class="col-lg-4">
+                <a href="{% url 'index' %}" class="navbar-brand p-0 d-none d-lg-block">
+                    <h1 class="m-0 display-4 text-uppercase text-primary">Biz<span class="text-secondary font-weight-normal">News</span></h1>
+                </a>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    
+    <div class="card bg-dark text-white">
+        <div class="card-header">
+            Lista de empleados
+        </div>
+        <div class="card-body">
+            <table class="table table-striped table-dark">
+                <thead>
+                    <tr>
+                        <th>Rut</th>
+                        <th>Nombre</th>
+                        <th>Apellido</th>
+                        <th>Edad</th>
+                        <th>Dirección</th>
+                        <th>Teléfono</th>
+                        <th>Género</th>
+                        <th>Tipo</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for aux in lista %}
+                        <tr>
+                            <td>{{ aux.rut }}</td>
+                            <td>{{ aux.nombre }}</td>
+                            <td>{{ aux.apellido }}</td>
+                            <td>{{ aux.edad }}</td>
+                            <td>{{ aux.direccion }}</td>
+                            <td>{{ aux.telefono }}</td>
+                            <td>{{ aux.genero }}</td>
+                            <td>{{ aux.tipo }}</td>
+                            <td>
+                                {% if perms.core.change_empleado %}
+                                <div class="dropdown">
+                                    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton{{ aux.id }}" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        Opciones
+                                    </button>
+                                    
+                                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton{{ aux.id }}">
+                                        <a class="dropdown-item" href="{% url 'empleadosupdate' aux.id %}">Editar</a>
+                                        <a class="dropdown-item" onclick="confirmarDelete({{aux.id}})">Eliminar</a>
+                                    </div>
+                                </div>
+                                {% endif %}
+                            </td>
+                        </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    
+
+
+
+
+
+
+
+
+
+    
+
+    <div class="container-fluid bg-dark pt-5 px-sm-3 px-md-5 mt-5">
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-uppercase text-light mb-4">Ponte en contacto</h4>
+                <p class="mb-2"><i class="fa fa-map-marker-alt text-white mr-3"></i>123 Calle, Ciudad, País</p>
+                <p class="mb-2"><i class="fa fa-phone-alt text-white mr-3"></i>+012 345 67890</p>
+                <p><i class="fa fa-envelope text-white mr-3"></i>info@ejemplo.com</p>
+                <h6 class="text-uppercase text-white py-2">Síguenos</h6>
+                <div class="d-flex justify-content-start">
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-uppercase text-light mb-4">Categorías</h4>
+                <div class="d-flex flex-column justify-content-start">
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Negocios</a>
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Deportes</a>
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Estilo de vida</a>
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Tecnología</a>
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Entretenimiento</a>
+                    <a class="text-body" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Política</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-uppercase text-light mb-4">Enlaces Rápidos</h4>
+                <div class="d-flex flex-column justify-content-start">
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Inicio</a>
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Acerca de</a>
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Servicios</a>
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Equipo</a>
+                    <a class="text-body mb-2" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Planes</a>
+                    <a class="text-body" href="#"><i class="fa fa-angle-right text-white mr-2"></i>Contacto</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h4 class="text-uppercase text-light mb-4">Boletín Informativo</h4>
+                <p>Recibe nuestras últimas actualizaciones directamente en tu bandeja de entrada.</p>
+                <div class="w-100 mb-3">
+                    <div class="input-group">
+                        <input type="text" class="form-control border-0" style="padding: 25px;" placeholder="Ingresa tu correo">
+                        <div class="input-group-append">
+                            <button class="btn btn-primary text-uppercase px-3">Suscribir</button>
+                        </div>
+                    </div>
+                </div>
+                <i>Nota: No compartimos tu información con nadie.</i>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-4 px-sm-3 px-md-5" style="background: #111111;">
+        <p class="m-0 text-center text-body">&copy; <a href="#">Tu Sitio</a>. Todos los derechos reservados. Diseñado por <a href="https://htmlcodex.com">HTML Codex</a></p>
+    </div>
+
+
+
+
+    <a href="#" class="btn btn-primary btn-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="{% static 'core/https://code.jquery.com/jquery-3.4.1.min.js' %}"></script>
+    <script src="{% static 'core/https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'core/lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'core/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+      {% block js %}
+
+      {% endblock %}  
+      <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+      <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+      <script src="{% static 'core/lib/easing/easing.min.js' %}"></script>
+      <script src="{% static 'core/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+      <script src="{% static 'core/mail/jqBootstrapValidation.min.js' %}"></script>
+      <script src="{% static 'core/mail/contact.js' %}"></script>
+      <script src="{% static 'core/js/main.js' %}"></script>
+      <script src="{% static 'core/js/time.js' %}"></script>
+      <script src="{% static 'core/js/video.js' %}"></script>
+      <script src="{% static 'core/js/funcionalidades.js' %}"></script>
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+</body>
+
+</html>

@@ -1,0 +1,14 @@
+.condores {
+    width: 700px; /* Ancho del reproductor */
+    height: auto; /* Altura ajustada automáticamente según el ancho */
+}
+
+.trailer {
+    width: 320px; /* Ancho del reproductor */
+    height: auto; /* Altura ajustada automáticamente según el ancho */
+}
+
+.animales {
+    width: 400px; /* Ancho del reproductor */
+    height: auto; /* Altura ajustada automáticamente según el ancho */
+}

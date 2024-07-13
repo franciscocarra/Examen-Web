@@ -1,0 +1,566 @@
+
+<!DOCTYPE html>
+<html lang="en">
+{% load static %}
+<head>
+    <meta charset="utf-8">
+    <title>BizNews</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="{% static 'core/img/favicon.ico' %}" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap" rel="stylesheet">  
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="{% static 'core/lib/owlcarousel/assets/owl.carousel.min.css' %}" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="{% static 'core/css/style.css' %}" rel="stylesheet">
+</head>
+
+<body>
+    <!-- Topbar Start -->
+    <div class="container-fluid d-none d-lg-block">
+        <div class="row align-items-center bg-dark px-lg-5">
+            <div class="col-lg-9">
+                <nav class="navbar navbar-expand-sm bg-dark p-0">
+                    <ul class="navbar-nav ml-n2">
+                        <li class="nav-item border-right border-secondary">
+                            <a id="current-time" class="nav-link text-body small" href="#"></a>
+                        </li>
+                        <li class="nav-item border-right border-secondary">
+                            <a class="nav-link text-body small" href="#">Advertise</a>
+                        </li>
+                        <li class="nav-item border-right border-secondary">
+                            <a class="nav-link text-body small" href="#">Contact</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body small" href="#">Login</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div class="col-lg-3 text-right d-none d-md-block">
+                <nav class="navbar navbar-expand-sm bg-dark p-0">
+                    <ul class="navbar-nav ml-auto mr-n2">
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-twitter"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-facebook-f"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-linkedin-in"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-instagram"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-google-plus-g"></small></a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="nav-link text-body" href="#"><small class="fab fa-youtube"></small></a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+        </div>
+        <div class="row align-items-center bg-white py-3 px-lg-5">
+            <div class="col-lg-4">
+                <a href="{% url 'index' %}" class="navbar-brand p-0 d-none d-lg-block">
+                    <h1 class="m-0 display-4 text-uppercase text-primary">Biz<span class="text-secondary font-weight-normal">News</span></h1>
+                </a>
+            </div>
+            <div class="col-lg-8 text-right">
+                <div class="profile_info">
+                    {% if user.is_authenticated %}
+                    <img src="{% static 'core/img/imgnoticias/perfil_en_blanco.webp' %}" alt="#" style="max-width: 60px;"> <!-- Aquí establecemos un ancho máximo de 100px -->
+                    <div class="profile_info_iner">
+                        <div class="profile_author_name">
+                            <h5>Bienvenido</h5>
+                            <h5>{{ user.username }}</h5>
+                        </div>
+                        <div class="profile_info_details">
+                            <a href="#">Mi perfil</a>
+                            {% if user.is_staff %} 
+                            {% if perms.core.view_empleado %} 
+                            <a href="{% url 'empleados' %}">Configuración</a> 
+                            {% endif %}              
+                            <a href="http://127.0.0.1:8000/admin">Administración</a>
+                            {% endif %}
+                            <form action="{% url 'logout' %}" method="post">{% csrf_token %}<button type="submit">Cerrar sesion</button></form>
+                        </div>
+                    </div>
+                    {% else %}
+                    
+                    <div class="profile_info_iner">
+
+                        <div class="profile_info_details">
+
+                            <p >Bienvenido: </p>
+                            <h5>Invitado </h5>
+                            <a href="{% url 'login' %}">Iniciar sesion</a>
+                            <a href="{% url 'register' %}">Registrarse</a>
+                        </div>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Topbar End -->
+ 
+
+    <!-- Navbar Start -->
+    <div class="container-fluid p-0">
+        <nav class="navbar navbar-expand-lg bg-dark navbar-dark py-2 py-lg-0 px-lg-5">
+            <a href="index.html" class="navbar-brand d-block d-lg-none">
+                <h1 class="m-0 display-4 text-uppercase text-primary">Biz<span class="text-white font-weight-normal">News</span></h1>
+            </a>
+            <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
+                <div class="navbar-nav mr-auto py-0">
+                    <a href="{% url 'index' %}" class="nav-item nav-link active">Inicio</a>
+                    <a href="{% url 'category' %}" class="nav-item nav-link">Categoría</a>
+                    <a href="single.html" class="nav-item nav-link">Noticia Única</a>
+                    <a href="{% url 'contact' %}" class="nav-item nav-link">Contacto</a>
+                </div>
+                <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
+                    <input type="text" class="form-control border-0" placeholder="Keyword">
+                    <div class="input-group-append">
+                        <button class="input-group-text bg-primary text-dark border-0 px-3"><i
+                                class="fa fa-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Breaking News Start -->
+    <div class="container-fluid mt-5 mb-3 pt-3">
+        <div class="container">
+            <div class="row align-items-center">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between">
+                        <div class="section-title border-right-0 mb-0" style="width: 180px;">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Tranding</h4>
+                        </div>
+                        <div class="owl-carousel tranding-carousel position-relative d-inline-flex align-items-center bg-white border border-left-0"
+                            style="width: calc(100% - 180px); padding-right: 100px;">
+                            <div class="text-truncate"><a class="text-secondary text-uppercase font-weight-semi-bold" href="">Lorem ipsum dolor sit amet elit. Proin interdum lacus eget ante tincidunt, sed faucibus nisl sodales</a></div>
+                            <div class="text-truncate"><a class="text-secondary text-uppercase font-weight-semi-bold" href="">Lorem ipsum dolor sit amet elit. Proin interdum lacus eget ante tincidunt, sed faucibus nisl sodales</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Breaking News End -->
+
+
+    <!-- News With Sidebar Start -->
+    <div class="container-fluid">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8">
+                    <!-- News Detail Start -->
+                    <div class="position-relative mb-3">
+                        <img class="img-fluid w-100" src="{% static 'core/img/imgnoticias/noticia 2.jpg' %}" style="object-fit: cover;">
+                        <div class="bg-white border border-top-0 p-4">
+                            <div class="mb-3">
+                                <a class="badge badge-primary text-uppercase font-weight-semi-bold p-2 mr-2"
+                                    href="">Política</a>
+                                    <span class="random-date text-black" data-news-id="5"></span>
+                            </div>
+                            <h1 class="mb-3 text-secondary text-uppercase font-weight-bold">Encuesta Signos: aumenta conciencia de la pérdida de derechos civiles a cambio de seguridad</h1>
+                            <h4 class="text-center">Disposición de los ciudadanos a aceptar restricción de sus derechos civiles a cambio de mayor seguridad frente al ambiente delictivo que azota el país y atributo de mejor control de la delincuencia de cada candidato, marcan el momento político nacional.</h4>
+                            <h5 class="text-center">La seguridad como prioridad política y de derechos</h5>
+                            <p class="text-center">Resulta inevitable que una política de mayor control y represión del crimen organizado genera también un aumento de dificultades y molestias para los ciudadanos en el ejercicio de sus derechos civiles. Parte de eso se advierte ya luego de la masiva ola de controles de identidad a personas y vehículos que han emprendido las autoridades en las principales ciudades del país. Consultados sobre el tema, las respuestas en la Encuesta Signos/ElMostrador de esta semana evidencian que los ciudadanos parecen conscientes de que ello es un costo inevitable de la búsqueda de mayor seguridad y apoya ampliamente ese tipo de medidas.</p>
+                            <p class="text-center">Preguntados los encuestados si: ¿Está usted de acuerdo con que se pida identificación para entrar a lugares como Lo Valledor, la Vega Central y otros lugares públicos para aumentar la seguridad o cree usted que es una violación de la libertad personal?, el 78,8% de ellos responde que está de acuerdo porque aumenta la seguridad; el 18,7% está en desacuerdo porque es una violación de la libertad personal y el 2,5% dice que no sabe.</p>
+                            <p class="text-center">Esa respuesta a la contingencia de seguridad que vive el país viene acompañada de criterios sobre los atributos que debieran exhibir los candidatos en la anticipada carrera presidencial. Los tres principales del grupo de front runners, Evelyn Matthei, marca esta semana 25,9% de adhesiones, José Antonio Kast 18,3% y Carolina Tohá 12,1%. (diapositiva 10).</p>
+                            <a href="https://media-front.elmostrador.cl/2024/04/Encuesta-Signos-5-de-abril-de-2024.pdf"><h3>Encuesta Signos 5 de abril de 2024</h3></a>
+                            <p class="text-center">Medidos ellos tres en cinco variables comunes: 1)capacidad de integrar diferentes posiciones, 2)  mejor para enfrentar la delincuencia, 3) con el o ella el país puede mejorar,  4) Por afinidad política, 5) tener una gran trayectoria política, entregan un dispar resultado de atributos.</p>
+                            <p class="text-center">Preguntados los encuestados ¿Cuáles son las 2 principales razones para votar por Evelyn Matthei? El principal atributo es capacidad de integrar diferentes posiciones políticas con 32,1% y el segundo atributo es ser la mejor para enfrentar la delincuencia 27,8%. (Diapositiva 11). Ello denota ser candidata transversal y demanda ciudadana de seguridad.</p>
+                            <p class="text-center">Hecha la misma pregunta para José Antonio Kast, su mejor atributo es capacidad para luchar contra la delincuencia, 42,7%. Su segundo atributo es la creencia que con él el país puede mejorar, un 16,8%. (Diapositiva 12). Ello le atribuye capacidad de brindar seguridad muy por encima de cualquier otra.</p>
+                            <p class="text-center">Para Carolina Tohá, la pregunta da como su mejor atributo su capacidad para integrar diferentes posiciones políticas, 30,1% y el segundo es la afinidad política  26,7%.(Diapositiva 13). Ello denota cohesión política de su bloque de base.</p>
+                            <h3>La lectura integrada de los atributos</h3>
+                            <p class="text-center">Tal como la Encuesta Signos/El Mostrador ha venido develando la preeminencia del tema de seguridad seguido de las políticas sociales en la agenda gubernamental, queda en evidencia también que esas demandas empiezan a configurar los atributos deseables que explicarían las adhesiones a los front runners de la carrera presidencial.</p>
+                            <p class="text-center">En el caso de Matthei y de Tohá, la incidencia de preguntas sobre la trayectoria política o su desempeño como alcaldesas ocupa un lugar secundario o poco significativo en puntos porcentuales. También ocupa un lugar secundario la afinidad política tanto en Matthei como en Kast. La excepción es Carolina Tohá, y que indica tal vez un límite de transversalidad pues siendo la única entre los tres de expresar al bloque político oficialista, es un atributo políticamente encapsulado.  También queda claro que pese a ser la encargada sectorial de la seguridad del país con el Ministerio del Interior en sus manos, y disponer de un poder de decisión significativo sobre lo que ahí ocurre, los resultados están muy debajo de las expectativas (16,4%).</p>
+                            <p class="text-center">De lo anterior, cabría esperar un aumento de la intensidad de acción y discurso de políticas con los temas de seguridad en el centro de los debates.</p>
+                            <p class="text-center">La encuesta es un sondeo semanal de carácter nacional realizado por SignosAnalytics en colaboración con el diario electrónico El Mostrador entre los días 1 y 5 de abril de 2024. Corresponde a una muestra probabilística de 1243 encuestas, con un error muestral total de 2.7 puntos porcentuales. Auto aplicada vía Web con apoyo de instrumentos de IA para mejorar su eficiencia a una muestra seleccionada aleatoriamente y expandida según variables de sexo, edad y educación. Está destinada a medir y seguir semanalmente acontecimientos relevantes de la coyuntura y variables políticas permanentes del acontecer nacional.</p>
+                        <p class="text-center">La encuesta es un sondeo semanal de carácter nacional realizado por SignosAnalytics en colaboración con el diario electrónico El Mostrador entre los días 1 y 5 de abril de 2024. Corresponde a una muestra probabilística de 1243 encuestas, con un error muestral total de 2.7 puntos porcentuales. Auto aplicada vía Web con apoyo de instrumentos de IA para mejorar su eficiencia a una muestra seleccionada aleatoriamente y expandida según variables de sexo, edad y educación. Está destinada a medir y seguir semanalmente acontecimientos relevantes de la coyuntura y variables políticas permanentes del acontecer nacional.</p>
+                        </div>
+                        <div class="d-flex justify-content-between bg-white border border-top-0 p-4">
+                            <div class="d-flex align-items-center">
+                                <img class="rounded-circle mr-2" src="{% static 'core/img/user.jpg' %}" width="25" height="25" alt="">
+                                <span>John Doe</span>
+                            </div>
+                            <div class="d-flex align-items-center">
+                                <span class="ml-3"><i class="far fa-eye mr-2"></i>12345</span>
+                                <span class="ml-3"><i class="far fa-comment mr-2"></i>123</span>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- News Detail End -->
+
+                    <!-- Comment List Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">3 Comments</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-4">
+                            <div class="media mb-4">
+                                <img src="{% static 'core/img/user.jpg' %}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                                <div class="media-body">
+                                    <h6><a class="text-secondary font-weight-bold" href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
+                                    <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor labore
+                                        accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
+                                    <button class="btn btn-sm btn-outline-secondary">Reply</button>
+                                </div>
+                            </div>
+                            <div class="media">
+                                <img src="{% static 'core/img/user.jpg' %}" alt="Image" class="img-fluid mr-3 mt-1" style="width: 45px;">
+                                <div class="media-body">
+                                    <h6><a class="text-secondary font-weight-bold" href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
+                                    <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor labore
+                                        accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed eirmod ipsum.</p>
+                                    <button class="btn btn-sm btn-outline-secondary">Reply</button>
+                                    <div class="media mt-4">
+                                        <img src="{% static 'core/img/user.jpg' %}" alt="Image" class="img-fluid mr-3 mt-1"
+                                            style="width: 45px;">
+                                        <div class="media-body">
+                                            <h6><a class="text-secondary font-weight-bold" href="">John Doe</a> <small><i>01 Jan 2045</i></small></h6>
+                                            <p>Diam amet duo labore stet elitr invidunt ea clita ipsum voluptua, tempor
+                                                labore accusam ipsum et no at. Kasd diam tempor rebum magna dolores sed sed
+                                                eirmod ipsum.</p>
+                                            <button class="btn btn-sm btn-outline-secondary">Reply</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Comment List End -->
+
+                    <!-- Comment Form Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Leave a comment</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-4">
+                            <form>
+                                <div class="form-row">
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="name">Name *</label>
+                                            <input type="text" class="form-control" id="name">
+                                        </div>
+                                    </div>
+                                    <div class="col-sm-6">
+                                        <div class="form-group">
+                                            <label for="email">Email *</label>
+                                            <input type="email" class="form-control" id="email">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="form-group">
+                                    <label for="website">Website</label>
+                                    <input type="url" class="form-control" id="website">
+                                </div>
+
+                                <div class="form-group">
+                                    <label for="message">Message *</label>
+                                    <textarea id="message" cols="30" rows="5" class="form-control"></textarea>
+                                </div>
+                                <div class="form-group mb-0">
+                                    <input type="submit" value="Leave a comment"
+                                        class="btn btn-primary font-weight-semi-bold py-2 px-3">
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Comment Form End -->
+                </div>
+
+                <div class="col-lg-4">
+                    <!-- Social Follow Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Follow Us</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #39569E;">
+                                <i class="fab fa-facebook-f text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Fans</span>
+                            </a>
+                            <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #52AAF4;">
+                                <i class="fab fa-twitter text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Followers</span>
+                            </a>
+                            <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #0185AE;">
+                                <i class="fab fa-linkedin-in text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Connects</span>
+                            </a>
+                            <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #C8359D;">
+                                <i class="fab fa-instagram text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Followers</span>
+                            </a>
+                            <a href="" class="d-block w-100 text-white text-decoration-none mb-3" style="background: #DC472E;">
+                                <i class="fab fa-youtube text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Subscribers</span>
+                            </a>
+                            <a href="" class="d-block w-100 text-white text-decoration-none" style="background: #055570;">
+                                <i class="fab fa-vimeo-v text-center py-4 mr-3" style="width: 65px; background: rgba(0, 0, 0, .2);"></i>
+                                <span class="font-weight-medium">12,345 Followers</span>
+                            </a>
+                        </div>
+                    </div>
+                    <!-- Social Follow End -->
+
+                    <!-- Ads Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Advertisement</h4>
+                        </div>
+                        <div class="bg-white text-center border border-top-0 p-3">
+                            <a href=""><img class="img-fluid" src="{% static 'core/img/news-800x500-2.jpg' %}" alt=""></a>
+                        </div>
+                    </div>
+                    <!-- Ads End -->
+
+                    <!-- Popular News Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">NOTICIAS DESTACADAS</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                <img class="img-fluid" src="{% static 'core/img/imgnoticias/noticia 10.webp' %}" width="110">
+                                <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                    <div class="mb-2">
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Mundo</a>
+                                        <span class="random-date text-black" data-news-id="13"></span>
+                                    </div>
+                                    <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'noticia 10' %}">Ordenan reabrir la investigación por...</a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                <img class="img-fluid" src="{% static 'core/img/imgnoticias/noticia 25.jpeg' %}" width="110">
+                                <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                    <div class="mb-2">
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Política</a>
+                                        <span class="random-date text-black" data-news-id="e"></span>
+                                    </div>
+                                    <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'noticia 25' %}">Hombre es asesinado tras...</a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                <img class="img-fluid" src="{% static 'core/img/imgnoticias/noticia 19.webp' %}" width="110">
+                                <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                    <div class="mb-2">
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Mundo</a>
+                                        <span class="random-date text-white" data-news-id="22"></span> 
+                                    </div>
+                                    <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'noticia 19' %}">Hombre es asesinado tras...</a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                <img class="img-fluid" src="{% static 'core/img/imgnoticias/noticia 22.jpg' %}" width="110">
+                                <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                    <div class="mb-2">
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Política</a>
+                                        <span class="random-date text-black" data-news-id="25"></span>
+                                    </div>
+                                    <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'noticia 22' %}">Los 10 grupos de delitos que...</a>
+                                </div>
+                            </div>
+                            <div class="d-flex align-items-center bg-white mb-3" style="height: 110px;">
+                                <img class="img-fluid" src="{% static 'core/img/imgnoticias/noticia 20.jpg' %}" width="110">
+                                <div class="w-100 h-100 px-3 d-flex flex-column justify-content-center border border-left-0">
+                                    <div class="mb-2">
+                                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Política</a>
+                                        <span class="random-date text-white" data-news-id="8"></span>
+                                    </div>
+                                    <a class="h6 m-0 text-secondary text-uppercase font-weight-bold" href="{% url 'noticia 20' %}">General Director de Carabineros...</a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Popular News End -->
+
+                    <!-- Newsletter Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Newsletter</h4>
+                        </div>
+                        <div class="bg-white text-center border border-top-0 p-3">
+                            <p>Aliqu justo et labore at eirmod justo sea erat diam dolor diam vero kasd</p>
+                            <div class="input-group mb-2" style="width: 100%;">
+                                <input type="text" class="form-control form-control-lg" placeholder="Your Email">
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary font-weight-bold px-3">Sign Up</button>
+                                </div>
+                            </div>
+                            <small>Lorem ipsum dolor sit amet elit</small>
+                        </div>
+                    </div>
+                    <!-- Newsletter End -->
+
+                    <!-- Tags Start -->
+                    <div class="mb-3">
+                        <div class="section-title mb-0">
+                            <h4 class="m-0 text-uppercase font-weight-bold">Tags</h4>
+                        </div>
+                        <div class="bg-white border border-top-0 p-3">
+                            <div class="d-flex flex-wrap m-n1">
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Politics</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Corporate</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Health</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Education</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Science</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Business</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Foods</a>
+                                <a href="" class="btn btn-sm btn-outline-secondary m-1">Travel</a>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Tags End -->
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- News With Sidebar End -->
+
+
+    <!-- Footer Start -->
+    <div class="container-fluid bg-dark pt-5 px-sm-3 px-md-5 mt-5">
+        <div class="row py-4">
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h5 class="mb-4 text-white text-uppercase font-weight-bold">Get In Touch</h5>
+                <p class="font-weight-medium"><i class="fa fa-map-marker-alt mr-2"></i>123 Street, New York, USA</p>
+                <p class="font-weight-medium"><i class="fa fa-phone-alt mr-2"></i>+012 345 67890</p>
+                <p class="font-weight-medium"><i class="fa fa-envelope mr-2"></i>info@example.com</p>
+                <h6 class="mt-4 mb-3 text-white text-uppercase font-weight-bold">Follow Us</h6>
+                <div class="d-flex justify-content-start">
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-twitter"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-facebook-f"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-linkedin-in"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square mr-2" href="#"><i class="fab fa-instagram"></i></a>
+                    <a class="btn btn-lg btn-secondary btn-lg-square" href="#"><i class="fab fa-youtube"></i></a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h5 class="mb-4 text-white text-uppercase font-weight-bold">Popular News</h5>
+                <div class="mb-3">
+                    <div class="mb-2">
+                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Business</a>
+                        <a class="text-body" href=""><small>Jan 01, 2045</small></a>
+                    </div>
+                    <a class="small text-body text-uppercase font-weight-medium" href="">Lorem ipsum dolor sit amet elit. Proin vitae porta diam...</a>
+                </div>
+                <div class="mb-3">
+                    <div class="mb-2">
+                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Business</a>
+                        <a class="text-body" href=""><small>Jan 01, 2045</small></a>
+                    </div>
+                    <a class="small text-body text-uppercase font-weight-medium" href="">Lorem ipsum dolor sit amet elit. Proin vitae porta diam...</a>
+                </div>
+                <div class="">
+                    <div class="mb-2">
+                        <a class="badge badge-primary text-uppercase font-weight-semi-bold p-1 mr-2" href="">Business</a>
+                        <a class="text-body" href=""><small>Jan 01, 2045</small></a>
+                    </div>
+                    <a class="small text-body text-uppercase font-weight-medium" href="">Lorem ipsum dolor sit amet elit. Proin vitae porta diam...</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h5 class="mb-4 text-white text-uppercase font-weight-bold">Categories</h5>
+                <div class="m-n1">
+                    <a href="" class="btn btn-sm btn-secondary m-1">Politics</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Corporate</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Health</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Education</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Science</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Foods</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Entertainment</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Travel</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Lifestyle</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Politics</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Corporate</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Health</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Education</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Science</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Business</a>
+                    <a href="" class="btn btn-sm btn-secondary m-1">Foods</a>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-5">
+                <h5 class="mb-4 text-white text-uppercase font-weight-bold">Flickr Photos</h5>
+                <div class="row">
+                    <div class="col-4 mb-3">
+                        <a href=""><img class="w-100" src="{% static 'core/img/news-110x110-1.jpg' %}" alt=""></a>
+                    </div>
+                    <div class="col-4 mb-3">
+                        <a href=""><img class="w-100" src="{% static 'core/img/news-110x110-2.jpg' %}" alt=""></a>
+                    </div>
+                    <div class="col-4 mb-3">
+                        <a href=""><img class="w-100" src="{% static 'core/img/news-110x110-3.jpg' %}" alt=""></a>
+                    </div>
+                    <div class="col-4 mb-3">
+                        <a href=""><img class="w-100" src="{% static 'core/img/news-110x110-4.jpg' %}" alt=""></a>
+                    </div>
+                    <div class="col-4 mb-3">
+                        <a href=""><img class="w-100" src="{% static 'core/img/news-110x110-5.jpg' %}" alt=""></a>
+                    </div>
+                    <div class="col-4 mb-3">
+                        <a href=""><img class="w-100" src="{% static 'core/img/news-110x110-1.jpg' %}" alt=""></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container-fluid py-4 px-sm-3 px-md-5" style="background: #111111;">
+        <p class="m-0 text-center">&copy; <a href="#">Your Site Name</a>. All Rights Reserved. 
+		
+		<!--/*** This template is free as long as you keep the footer author’s credit link/attribution link/backlink. If you'd like to use the template without the footer author’s credit link/attribution link/backlink, you can purchase the Credit Removal License from "https://htmlcodex.com/credit-removal". Thank you for your support. ***/-->
+		Design by <a href="https://htmlcodex.com">HTML Codex</a><br>
+        Distributed by <a href="https://themewagon.com">ThemeWagon</a></p>
+    </div>
+    <!-- Footer End -->
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary btn-square back-to-top"><i class="fa fa-arrow-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="{% static 'core/lib/easing/easing.min.js' %}"></script>
+    <script src="{% static 'core/lib/owlcarousel/owl.carousel.min.js' %}"></script>
+
+    <!-- Template Javascript -->
+    <script src="{% static 'core/js/main.js' %}"></script>
+    <script src="{% static 'core/js/time.js' %}"></script>
+</body>
+
+</html>
