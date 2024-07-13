@@ -126,13 +126,13 @@
             </a>
             <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
                 <span class="navbar-toggler-icon"></span>
-            </button> 
+            </button>
             <div class="collapse navbar-collapse justify-content-between px-0 px-lg-3" id="navbarCollapse">
                 <div class="navbar-nav mr-auto py-0">
-                    <a href="{% url 'index' %}" class="nav-item nav-link active">Inicio</a>
+                    <a href="{% url 'index' %}" class="nav-item nav-link ">Inicio</a>
                     <a href="{% url 'category' %}" class="nav-item nav-link">Categoría</a>
                     <a href="{% url 'contact' %}" class="nav-item nav-link">Contacto</a>
-                    <a href="{% url 'suscripcíon' %}" class="nav-item nav-link ">suscripción</a>
+                    <a href="{% url 'suscripcíon' %}" class="nav-item nav-link active">suscripción</a>
                     <a href="{% url 'carrito' %}" class="nav-item nav-link">
                         <img src="{% static 'core/img/carrito.png' %}" alt="Carrito" style="width: 34px; height: 34px;">
                         <span id="cart-count" class="cart-count">0</span>
