@@ -1,4 +1,55 @@
-.nav-item img {
-    background: none;
-    border: none;
+.empty-cart-message {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #E2E8F0; /* Background color */
+    border-radius: 8px; /* Rounded corners */
+    border: 1px solid #CBD5E0; /* Border color */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); /* Shadow */
+}
+
+.empty-cart-message .content {
+    text-align: center;
+}
+
+.empty-cart-message .content img {
+    max-width: 150px;
+    margin-bottom: 20px;
+}
+
+.empty-cart-message .content h2 {
+    font-size: 24px;
+    color: #2D3748; /* Text color */
+    margin-bottom: 10px;
+}
+
+.empty-cart-message .content p {
+    font-size: 16px;
+    color: #4A5568; /* Text color */
+    margin-bottom: 20px;
+}
+
+.empty-cart-message .content a.btn.btn-primary {
+    background-color: #3182CE; /* Button color */
+    color: white;
+    padding: 10px 20px;
+    border-radius: 5px;
+    text-decoration: none;
+    transition: background-color 0.3s;
+}
+
+.empty-cart-message .content a.btn.btn-primary:hover {
+    background-color: #2B6CB0; /* Button hover color */
+}
+
+.empty-cart-message .content p a {
+    color: #3182CE; /* Link color */
+    text-decoration: none;
+    transition: color 0.3s;
+}
+
+.empty-cart-message .content p a:hover {
+    color: #2B6CB0; /* Link hover color */
 }

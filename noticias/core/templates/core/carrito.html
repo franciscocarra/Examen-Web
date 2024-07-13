@@ -24,6 +24,7 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{% static 'core/css/style.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/style_suscripcíon.css' %}" rel="stylesheet">
+    <link href="{% static 'core/css/style_carrito.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -133,8 +134,8 @@
                     <a href="{% url 'index' %}" class="nav-item nav-link">Inicio</a>
                 <a href="{% url 'category' %}" class="nav-item nav-link">Categoría</a>
                 <a href="{% url 'contact' %}" class="nav-item nav-link">Contacto</a>
-                <a href="{% url 'suscripcíon' %}" class="nav-item nav-link active">suscripcíon</a>
-                <a href="{% url 'carrito' %}" class="nav-item nav-link">
+                <a href="{% url 'suscripcíon' %}" class="nav-item nav-link">suscripcíon</a>
+                <a href="{% url 'carrito' %}" class="nav-item nav-link active">
                     <img src="{% static 'core/img/carrito.png' %}" alt="Carrito" style="width: 34px; height: 34px;">
                     <span id="cart-count" class="cart-count">0</span>
                 </a>
@@ -151,8 +152,23 @@
     </div>
     <!-- Navbar End -->
 
-
     
+    <div id="empty-cart-message" class="empty-cart-message chakra-card__body css-1cm1juy">
+        <div class="content chakra-stack css-1q6pec8">
+            {% if user.is_authenticated %}
+            <div class="chakra-stack css-1y6aw5c">
+                <h2 class="chakra-heading css-1u6upbv">Tu Carro está vacío</h2>
+            </div>
+            {% else %}
+            <div class="chakra-stack css-1y6aw5c">
+                <h2 class="chakra-heading css-1u6upbv">Tu Carro está vacío</h2>
+                <p class="chakra-text css-ttb4y">Inicia sesión para ver los productos que habías guardado en tu Carro.</p>
+                <a href="{% url 'login' %}" class="btn btn-primary chakra-button css-1cmlw5v">Iniciar sesión</a>
+                <p class="chakra-text css-1q6pec8">¿No tienes cuenta? <a href="{% url 'register' %}" class="chakra-link css-1n12wwe">Regístrate</a></p>
+            </div>
+            {% endif %}
+        </div>
+    </div>
 
 
 
