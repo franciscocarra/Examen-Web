@@ -1,127 +1,110 @@
-const btnCart = document.querySelector('.container-cart-icon');
-const containerCartProducts = document.querySelector(
-	'.container-cart-products'
-);
+let cart = [];
 
-btnCart.addEventListener('click', () => {
-	containerCartProducts.classList.toggle('hidden-cart');
-});
+// Función para agregar una suscripción al carrito
+// Función para agregar una suscripción al carrito
+function addToCart(subscription) {
+    // Verificar si ya hay una suscripción en el carrito
+    if (cart.length === 0) {
+        cart.push({ ...subscription, quantity: 1 });  // Agregar la suscripción con cantidad 1
+    } else {
+        // Reemplazar la suscripción existente
+        cart = [{ ...subscription, quantity: 1 }];
+    }
+    updateCart();
+    saveCart();
+}
 
-/* ========================= */
-const cartInfo = document.querySelector('.cart-product');
-const rowProduct = document.querySelector('.row-product');
+// Función para eliminar una suscripción del carrito por nombre
+function removeFromCart(subscriptionName) {
+    const itemIndex = cart.findIndex(item => item.name === subscriptionName);
+    if (itemIndex !== -1) {
+        cart.splice(itemIndex, 1); // Eliminar el artículo del carrito
+        updateCart();
+        saveCart();
+    }
+}
 
-// Lista de todos los contenedores de productos
-const productsList = document.querySelector('.container-items');
+// Función para actualizar la visualización del carrito
+function updateCart() {
+    const cartItemsElement = document.getElementById('cart-items');
+    let cartTotal = 0;
 
-// Variable de arreglos de Productos
-let allProducts = [];
+    // Limpiar la lista de elementos del carrito
+    cartItemsElement.innerHTML = '';
 
-const valorTotal = document.querySelector('.total-pagar');
+    // Recorrer todas las suscripciones en el carrito
+    cart.forEach(item => {
+        const { name, price, quantity } = item;
+        const totalPrice = price * quantity;
+        cartTotal += totalPrice;
 
-const countProducts = document.querySelector('#contador-productos');
-
-const cartEmpty = document.querySelector('.cart-empty');
-const cartTotal = document.querySelector('.cart-total');
-
-productsList.addEventListener('click', e => {
-	if (e.target.classList.contains('btn-add-cart')) {
-		const product = e.target.parentElement;
-
-		const infoProduct = {
-			quantity: 1,
-			title: product.querySelector('h2').textContent,
-			price: product.querySelector('p').textContent,
-		};
-
-		const exits = allProducts.some(
-			product => product.title === infoProduct.title
-		);
-
-		if (exits) {
-			const products = allProducts.map(product => {
-				if (product.title === infoProduct.title) {
-					product.quantity++;
-					return product;
-				} else {
-					return product;
-				}
-			});
-			allProducts = [...products];
-		} else {
-			allProducts = [...allProducts, infoProduct];
-		}
-
-		showHTML();
-	}
-});
-
-rowProduct.addEventListener('click', e => {
-	if (e.target.classList.contains('icon-close')) {
-		const product = e.target.parentElement;
-		const title = product.querySelector('p').textContent;
-
-		allProducts = allProducts.filter(
-			product => product.title !== title
-		);
-
-		console.log(allProducts);
-
-		showHTML();
-	}
-});
-
-// Funcion para mostrar  HTML
-const showHTML = () => {
-	if (!allProducts.length) {
-		cartEmpty.classList.remove('hidden');
-		rowProduct.classList.add('hidden');
-		cartTotal.classList.add('hidden');
-	} else {
-		cartEmpty.classList.add('hidden');
-		rowProduct.classList.remove('hidden');
-		cartTotal.classList.remove('hidden');
-	}
-
-	// Limpiar HTML
-	rowProduct.innerHTML = '';
-
-	let total = 0;
-	let totalOfProducts = 0;
-
-	allProducts.forEach(product => {
-		const containerProduct = document.createElement('div');
-		containerProduct.classList.add('cart-product');
-
-		containerProduct.innerHTML = `
-            <div class="info-cart-product">
-                <span class="cantidad-producto-carrito">${product.quantity}</span>
-                <p class="titulo-producto-carrito">${product.title}</p>
-                <span class="precio-producto-carrito">${product.price}</span>
+        // Crear elemento de lista para la suscripción
+        const listItem = document.createElement('li');
+        listItem.className = 'list-group-item d-flex justify-content-between lh-sm';
+        listItem.innerHTML = `
+            <div>
+                <h6 class="my-0">${name}</h6>
+                <small class="text-muted">Cantidad: ${quantity}</small>
             </div>
-            <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke-width="1.5"
-                stroke="currentColor"
-                class="icon-close"
-            >
-                <path
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    d="M6 18L18 6M6 6l12 12"
-                />
-            </svg>
+            <span class="text-muted">$${totalPrice.toFixed(2)}</span>
+            <button class="btn btn-sm btn-outline-danger remove-item" data-name="${name}">Eliminar</button>
         `;
+        cartItemsElement.appendChild(listItem);
 
-		rowProduct.append(containerProduct);
+        // Agregar evento al botón de eliminar
+        listItem.querySelector('.remove-item').addEventListener('click', () => {
+            removeFromCart(name);
+        });
+    });
 
-		total =
-			total + parseInt(product.quantity * product.price.slice(1));
-		totalOfProducts = totalOfProducts + product.quantity;
-	});
+    // Actualizar el total del carrito
+    document.getElementById('cart-total').textContent = cartTotal.toFixed(2);
 
-	valorTotal.innerText = `$${total}`;
-	countProducts.innerText = totalOfProducts;
-};
+    // Mostrar el botón de eliminar del carrito si hay elementos
+    const removeButton = document.querySelector('.remove-from-cart');
+    if (cart.length > 0) {
+        removeButton.classList.remove('d-none');
+    } else {
+        removeButton.classList.add('d-none');
+    }
+}
+
+// Función para guardar el carrito en localStorage
+function saveCart() {
+    localStorage.setItem('cart', JSON.stringify(cart));
+}
+
+// Función para cargar el carrito desde localStorage
+function loadCart() {
+    const cartData = localStorage.getItem('cart');
+    if (cartData) {
+        cart = JSON.parse(cartData);
+        updateCart();
+    }
+}
+
+// Evento al cargar la página para cargar el carrito guardado
+document.addEventListener('DOMContentLoaded', () => {
+    loadCart();
+});
+
+// Agregar eventos a los botones de agregar al carrito
+document.querySelectorAll('.add-to-cart').forEach(button => {
+    button.addEventListener('click', () => {
+        const name = button.getAttribute('data-name');
+        const price = parseFloat(button.getAttribute('data-price'));
+        addToCart({ name, price });
+    });
+});
+
+// Evento para el botón de proceder al pago
+document.getElementById('checkout-button').addEventListener('click', () => {
+    alert('Implementar la lógica para proceder al pago aquí...');
+});
+
+// Función para vaciar el carrito
+function clearCart() {
+    cart = [];
+    updateCart();
+    saveCart();
+}

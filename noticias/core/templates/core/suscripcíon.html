@@ -24,6 +24,7 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{% static 'core/css/style.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/style_suscripcíon.css' %}" rel="stylesheet">
+    <link href="{% static 'core/css/style_carrito.css' %}" rel="stylesheet">
 </head>
 
 <body>
@@ -134,10 +135,6 @@
                     <a href="{% url 'category' %}" class="nav-item nav-link">Categoría</a>
                     <a href="{% url 'contact' %}" class="nav-item nav-link">Contacto</a>
                     <a href="{% url 'suscripcíon' %}" class="nav-item nav-link active">suscripción</a>
-                    <a href="{% url 'carrito' %}" class="nav-item nav-link">
-                        <img src="{% static 'core/img/carrito.png' %}" alt="Carrito" style="width: 34px; height: 34px;">
-                        <span id="cart-count" class="cart-count">0</span>
-                    </a>
                 </div>
                 <div class="input-group ml-auto d-none d-lg-flex" style="width: 100%; max-width: 300px;">
                     <input type="text" class="form-control border-0" placeholder="Keyword">
@@ -152,6 +149,7 @@
     </div>
     <!-- Navbar End -->
 
+    
 
     <div class="container subscription-container">
         <h1 class="text-center my-4">Planes de Suscripción de Noticias</h1>
@@ -169,8 +167,7 @@
                             <li>Sin anuncios</li>
                         </ul>
                         {% if user.is_authenticated %}
-                        <div style="justify-content: center;" class="text-center" id="paypal-button-1-sub">
-                        </div>
+                        <button type="button" class="btn btn-lg btn-block btn-outline-primary add-to-cart" data-name="Suscripción de 1 mes" data-price="1.57">Agregar al carrito</button>
                         {% else %}
                         <div style="justify-content: center;" class="text-center">
                             <a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión para comprar</a>
@@ -193,8 +190,7 @@
                             <li>Acceso exclusivo a artículos premium</li>
                         </ul>
                         {% if user.is_authenticated %}
-                        <div style="justify-content: center;" class="text-center" id="paypal-button-2-sub">
-                        </div>
+                        <button type="button" class="btn btn-lg btn-block btn-outline-primary add-to-cart" data-name="Suscripción de 3 meses" data-price="2.57">Agregar al carrito</button>
                         {% else %}
                         <div style="justify-content: center;" class="text-center">
                             <a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión para comprar</a>
@@ -218,8 +214,7 @@
                             <li>Descuentos en eventos especiales</li>
                         </ul>
                         {% if user.is_authenticated %}
-                        <div style="justify-content: center;" class="text-center" id="paypal-button-3-sub">
-                        </div>
+                        <button type="button" class="btn btn-lg btn-block btn-outline-primary add-to-cart" data-name="Suscripción de 1 año" data-price="12.57">Agregar al carrito</button>
                         {% else %}
                         <div style="justify-content: center;" class="text-center">
                             <a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión para comprar</a>
@@ -229,6 +224,29 @@
                 </div>
             </div>
         </div>
+    </div>
+
+
+            
+
+    <div id="cart" class="container mt-4">
+        <h2 class="text-center">Carrito de Compras</h2>
+        {% if user.is_authenticated %}
+        <ul id="cart-items" class="list-group mb-3"></ul>
+        <div class="text-right">
+            <h4>Total: $<span id="cart-total">0.00</span></h4>
+        </div>
+        <div id="paypal-button-container" class="text-center mt-4"></div> <!-- Contenedor del botón de PayPal -->
+        {% else %}
+        <div class="chakra-stack css-5ljqgv">
+            <div class="chakra-stack css-10keghz">
+                <h2 class="chakra-heading">Tu Carro está vacío</h2>
+                <p class="chakra-text">Inicia sesión para ver los productos que habías guardado en tu Carro.</p>
+                <a href="{% url 'login' %}" class="chakra-button">Iniciar sesión</a>
+                <p class="chakra-text">¿No tienes cuenta? <a href="{% url 'register' %}" class="chakra-link">Regístrate</a></p>
+            </div>
+        </div>
+        {% endif %}
     </div>
 
 
@@ -338,131 +356,46 @@
     <!-- Template Javascript -->
     <script src="{% static 'core/js/main.js' %}"></script>
     <script src="{% static 'core/js/time.js' %}"></script>
+    <script src="{% static 'core/js/carrito.js' %}"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.4.0/jspdf.umd.min.js"></script>
     <script src="https://www.paypalobjects.com/api/checkout.js"></script>
-<script>
-paypal.Button.render({
-// Configure environment
-env: 'sandbox',
-client: {
-sandbox: 'AW0VdaPcxSZOqeU6_M23LjBBCUj8XAxL1mGfjf7MnifWYm7uCw5QmfHuP2ed4gIMX5LN5-HPBKVJgRQQ',
-production: 'demo_production_client_id'
-},
-// Customize button (optional)
-locale: 'en_US',
-style: {
-size: 'small',
-color: 'gold',
-shape: 'pill',
-},
-
-// Enable Pay Now checkout flow (optional)
-commit: true,
-
-// Set up a payment
-payment: function (data, actions) {
-return actions.payment.create({
-transactions: [{
-amount: {
-total: '1.57',
-currency: 'USD'
-}
-}]
-});
-},
-// Execute the payment
-onAuthorize: function (data, actions) {
-return actions.payment.execute().then(function () {
-// Show a confirmation message to the buyer
-window.alert('Thank you for your purchase!');
-});
-}
-}, '#paypal-button-1-sub');
-
-</script>
-
-<script>
-    paypal.Button.render({
-    // Configure environment
-    env: 'sandbox',
-    client: {
-    sandbox: 'AW0VdaPcxSZOqeU6_M23LjBBCUj8XAxL1mGfjf7MnifWYm7uCw5QmfHuP2ed4gIMX5LN5-HPBKVJgRQQ',
-    production: 'demo_production_client_id'
-    },
-    // Customize button (optional)
-    locale: 'en_US',
-    style: {
-    size: 'small',
-    color: 'gold',
-    shape: 'pill',
-    },
     
-    // Enable Pay Now checkout flow (optional)
-    commit: true,
-    
-    // Set up a payment
-    payment: function (data, actions) {
-    return actions.payment.create({
-    transactions: [{
-    amount: {
-    total: '2.63',
-    currency: 'USD'
-    }
-    }]
-    });
-    },
-    // Execute the payment
-    onAuthorize: function (data, actions) {
-    return actions.payment.execute().then(function () {
-    // Show a confirmation message to the buyer
-    window.alert('Thank you for your purchase!');
-    });
-    }
-    }, '#paypal-button-2-sub');
-    
+    <script>  
+        paypal.Button.render({
+            // Configure environment
+            env: 'sandbox', // Cambiar a 'production' en producción
+            client: {
+                sandbox: 'AW0VdaPcxSZOqeU6_M23LjBBCUj8XAxL1mGfjf7MnifWYm7uCw5QmfHuP2ed4gIMX5LN5-HPBKVJgRQQ',
+                // production: 'demo_production_client_id'
+            },
+            locale: 'en_US',
+            style: {
+                size: 'small',
+                color: 'gold',
+                shape: 'pill',
+            },
+            commit: true,
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions: [{
+                        amount: {
+                            total: document.getElementById('cart-total').textContent.trim(), // Total del carrito
+                            currency: 'USD'
+                        }
+                    }]
+                });
+            },
+            onAuthorize: function (data, actions) {
+            return actions.payment.execute().then(function () {
+            window.alert('¡Gracias por tu compra!');
+            clearCart(); // Limpia el carrito después de la compra
+            document.getElementById('cart-total').textContent = '0.00'; // Reinicia el total del carrito
+                });
+                
+            }
+            
+        }, '#paypal-button-container');
     </script>
-
-<script>
-    paypal.Button.render({
-    // Configure environment
-    env: 'sandbox',
-    client: {
-    sandbox: 'AW0VdaPcxSZOqeU6_M23LjBBCUj8XAxL1mGfjf7MnifWYm7uCw5QmfHuP2ed4gIMX5LN5-HPBKVJgRQQ',
-    production: 'demo_production_client_id'
-    },
-    // Customize button (optional)
-    locale: 'en_US',
-    style: {
-    size: 'small',
-    color: 'gold',
-    shape: 'pill',
-    },
-    
-    // Enable Pay Now checkout flow (optional)
-    commit: true,
-    
-    // Set up a payment
-    payment: function (data, actions) {
-    return actions.payment.create({
-    transactions: [{
-    amount: {
-    total: '12.96',
-    currency: 'USD'
-    }
-    }]
-    });
-    },
-    // Execute the payment
-    onAuthorize: function (data, actions) {
-    return actions.payment.execute().then(function () {
-    // Show a confirmation message to the buyer
-    window.alert('Thank you for your purchase!');
-    });
-    }
-    }, '#paypal-button-3-sub');
-    
-    </script>
-
-
 
 
 </body>
