@@ -24,7 +24,6 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="{% static 'core/css/style.css' %}" rel="stylesheet">
     <link href="{% static 'core/css/style_suscripcíon.css' %}" rel="stylesheet">
-
 </head>
 
 <body>
@@ -170,7 +169,8 @@
                             <li>Sin anuncios</li>
                         </ul>
                         {% if user.is_authenticated %}
-                        <div style="justify-content: center;" class="text-center" id="paypal-button-1-sub"></div>
+                        <div style="justify-content: center;" class="text-center" id="paypal-button-1-sub">
+                        </div>
                         {% else %}
                         <div style="justify-content: center;" class="text-center">
                             <a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión para comprar</a>
@@ -193,7 +193,8 @@
                             <li>Acceso exclusivo a artículos premium</li>
                         </ul>
                         {% if user.is_authenticated %}
-                        <div style="justify-content: center;" class="text-center" id="paypal-button-2-sub"></div>
+                        <div style="justify-content: center;" class="text-center" id="paypal-button-2-sub">
+                        </div>
                         {% else %}
                         <div style="justify-content: center;" class="text-center">
                             <a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión para comprar</a>
@@ -217,7 +218,8 @@
                             <li>Descuentos en eventos especiales</li>
                         </ul>
                         {% if user.is_authenticated %}
-                        <div style="justify-content: center;" class="text-center" id="paypal-button-3-sub"></div>
+                        <div style="justify-content: center;" class="text-center" id="paypal-button-3-sub">
+                        </div>
                         {% else %}
                         <div style="justify-content: center;" class="text-center">
                             <a href="{% url 'login' %}" class="btn btn-primary">Iniciar sesión para comprar</a>

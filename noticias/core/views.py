@@ -5,11 +5,12 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required, permission_required, user_passes_test
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login
-from django.http import HttpResponseForbidden
+from django.http import HttpResponseForbidden, HttpResponse
 from .serializers import *
 from rest_framework import viewsets
 from rest_framework.renderers import JSONRenderer
-
+from reportlab.lib.pagesizes import letter
+from reportlab.pdfgen import canvas
 
 
 #from django.core.pagintator import
@@ -248,3 +249,18 @@ def suscripcíon (request):
 def carrito (request):
     return render(request, 'core/carrito.html')
 
+def generate_voucher_pdf(request, subscription_type):
+    # Crear el PDF del voucher
+    response = HttpResponse(content_type='application/pdf')
+    response['Content-Disposition'] = 'attachment; filename="voucher.pdf"'
+
+    # Crear el contenido del PDF con los detalles de la suscripción
+    p = canvas.Canvas(response, pagesize=letter)
+    p.drawString(100, 750, f"Voucher de Suscripción - {subscription_type}")
+    p.drawString(100, 730, "Detalles adicionales...")
+    # Aquí puedes agregar más detalles según necesites
+
+    p.showPage()
+    p.save()
+
+    return response

@@ -157,7 +157,37 @@
         <div class="content chakra-stack css-1q6pec8">
             {% if user.is_authenticated %}
             <div class="chakra-stack css-1y6aw5c">
+                <h1>Carrito de Compra</h1>
+                {% if cart_items %}
+                <table class="table">
+                    <thead>
+                        <tr>
+                            <th>Producto</th>
+                            <th>Precio</th>
+                            <th>Cantidad</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in cart_items %}
+                        <tr>
+                            <td>{{ item.subscription.type }}</td>
+                            <td>${{ item.subscription.price }}</td>
+                            <td>{{ item.quantity }}</td>
+                            <td>
+                                <form action="{% url 'remove_from_cart' item.id %}" method="post">
+                                    {% csrf_token %}
+                                    <button type="submit" class="btn btn-danger btn-sm">Eliminar</button>
+                                </form>
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                <a href="{% url 'checkout' %}" class="btn btn-primary">Proceder al pago</a>
+                {% else %}
                 <h2 class="chakra-heading css-1u6upbv">Tu Carro está vacío</h2>
+                {% endif %}
             </div>
             {% else %}
             <div class="chakra-stack css-1y6aw5c">
