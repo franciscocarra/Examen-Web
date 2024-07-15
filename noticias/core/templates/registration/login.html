@@ -20,7 +20,13 @@
                     </div>
                 </div>
                 <div class="text-center mt-3">
-                    <small class="text-muted">¿No tienes una cuenta? <a href="{% url 'register' %}">¡Crea una!</a></small>
+                    <small class="text-muted">
+                        ¿No tienes una cuenta? <a href="{% url 'register' %}">¡Crea una!</a>
+                    </small>
+                    <br>
+                    <small class="text-muted">
+                        ¿Olvidaste tu contraseña? <a href="{% url 'reset_password' %}">¡Crea una nueva!</a>
+                    </small>
                 </div>
             </div>
         </div>

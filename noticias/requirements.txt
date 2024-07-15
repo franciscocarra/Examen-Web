@@ -1,0 +1,37 @@
+pip install
+
+django
+django-admin-interface
+django-crispy-forms
+crispy-bootstrap4
+pillow
+requests
+psycopg2-binary
+djangorestframework
+django-admin-confirm
+django-filter
+django-axes
+django-simple-captcha
+django-recaptcha
+cloudinary
+whitenoise
+django-multi-captcha-admin
+pip install reportlab
+
+--------------------------------------------------------------------------------------------------
+
+
+
+
+
+paypal 
+
+personal:
+
+sb-wdzej31397266@personal.example.com
+
+pass: 1p>clH#)
+
+
+
+

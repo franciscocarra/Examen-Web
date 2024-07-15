@@ -238,14 +238,12 @@
         </div>
         <div id="paypal-button-container" class="text-center mt-4"></div> <!-- Contenedor del botón de PayPal -->
         {% else %}
-        <div class="chakra-stack css-5ljqgv">
-            <div class="chakra-stack css-10keghz">
-                <h2 class="chakra-heading">Tu Carro está vacío</h2>
-                <p class="chakra-text">Inicia sesión para ver los productos que habías guardado en tu Carro.</p>
-                <a href="{% url 'login' %}" class="chakra-button">Iniciar sesión</a>
-                <p class="chakra-text">¿No tienes cuenta? <a href="{% url 'register' %}" class="chakra-link">Regístrate</a></p>
+            <div class="chakra-stack css-1y6aw5c">
+                <h2 class="chakra-heading css-1u6upbv">Tu Carro está vacío</h2>
+                <p class="chakra-text css-ttb4y">Inicia sesión para ver los productos que habías guardado en tu Carro.</p>
+                <a href="{% url 'login' %}" class="btn btn-primary chakra-button css-1cmlw5v">Iniciar sesión</a>
+                <p class="chakra-text css-1q6pec8">¿No tienes cuenta? <a href="{% url 'register' %}" class="chakra-link css-1n12wwe">Regístrate</a></p>
             </div>
-        </div>
         {% endif %}
     </div>
 
